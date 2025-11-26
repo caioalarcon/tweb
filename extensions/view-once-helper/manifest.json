@@ -1,0 +1,15 @@
+{
+  "manifest_version": 3,
+  "name": "Telegram Web - View Once Helper",
+  "description": "Adds TTL/view-once controls to Telegram Web file uploads via UI overlay and sendFile patching.",
+  "version": "0.1.0",
+  "permissions": ["storage"],
+  "host_permissions": ["https://web.telegram.org/*"],
+  "content_scripts": [
+    {
+      "matches": ["https://web.telegram.org/*"],
+      "js": ["content-script.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}
