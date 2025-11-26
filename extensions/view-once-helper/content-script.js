@@ -166,8 +166,24 @@ function setupPopupInjection(selectControl) {
   observer.observe(document.body, { childList: true, subtree: true });
 }
 
-(function init() {
+function waitForBody() {
+  if (document.body) return Promise.resolve(document.body);
+
+  return new Promise((resolve) => {
+    const observer = new MutationObserver(() => {
+      if (document.body) {
+        observer.disconnect();
+        resolve(document.body);
+      }
+    });
+
+    observer.observe(document.documentElement, { childList: true, subtree: true });
+  });
+}
+
+(async function init() {
   if(!location.hostname.includes('web.telegram.org')) return;
+  await waitForBody();
   const { select } = createUi();
   injectPageHook();
   setupPopupInjection(select);
